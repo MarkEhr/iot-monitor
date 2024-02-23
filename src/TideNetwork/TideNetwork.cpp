@@ -11,32 +11,37 @@ unsigned long previousTime = 0;
 // Define timeout time in milliseconds (example: 2000ms = 2s)
 const long timeoutTime = 2000;
 
+TideNetwork::TideNetwork( Configuration* config ){
+  this->config = config;
+}
+
 void TideNetwork::setup() {
   
   delay(10);
   Serial.println('\n');
 
-  // add multiple Wi-Fi networks
-  wifiMulti.addAP("TIDE", "NoMeLaSe");
-  wifiMulti.addAP("Luke, I am your WiFi", "Noooooooo1");
-  wifiMulti.addAP("AXTIDE", "adiosipv6");
+  int wifiCount = this->config->getWifiNetworksCount();
+  for( int i=0; i < wifiCount; i++ ){
+    WifiCredentials credentials = this->config->getWifiNetworks()[i];
+    wifiMulti.addAP( credentials.SSID.c_str(), credentials.key.c_str());
+  }
 
-  Serial.println("Connecting ...");
+  Serial.println("[TideNetwork] Connecting ...");
   
   // Wait for the Wi-Fi to connect: scan for Wi-Fi networks, and connect to the strongest of the networks above
-  while (wifiMulti.run() != WL_CONNECTED) {
-    delay(1000);
-    Serial.print('.');
+  wl_status_t result = wifiMulti.run( 5000 );
+  if ( result != WL_CONNECTED) {
+    Serial.println("[TideNetwork] Failed to connected to wifi");
+    return;
+
   }
   Serial.println('\n');
-  Serial.print("Connected to ");
+  Serial.print("[TideNetwork] Connected to ");
   Serial.println(WiFi.SSID());              // Tell us what network we're connected to
   Serial.print("IP address:\t");
   Serial.println(WiFi.localIP());           // Send the IP address of the ESP8266 to the computer
 
   server.begin();
-
-
 
 }
 
@@ -103,35 +108,3 @@ void callback(char *topic, byte *payload, unsigned int length) {
     Serial.println("-----------------------");
 }
 
-void TideNetwork::connectToBroker(){
-
-  // MQTT Broker
-  const char *mqtt_broker = "192.168.100.161";
-  const char *topic = "esp8266";
-  const char *mqtt_username = "emqx";
-  const char *mqtt_password = "public";
-  const int mqtt_port = 1883;
-
-  PubSubClient client = PubSubClient(this->wifiClient);
-
-  client.setServer(mqtt_broker, mqtt_port);
-  client.setCallback(callback);
-
-  while (!client.connected()) {
-        char *client_id = "esp8266-client";
-        Serial.println("Connecting to public emqx mqtt broker.....");
-        if (client.connect(client_id, mqtt_username, mqtt_password)) {
-            Serial.println("Public emqx mqtt broker connected");
-        } else {
-            Serial.print("failed with state ");
-            Serial.print(client.state());
-            delay(2000);
-        }
-    }
-    // publish and subscribe
-    client.publish(topic, "hello mark");
-    client.subscribe(topic);
-
-    this->mqttClient = client;
-
-}

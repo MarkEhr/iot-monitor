@@ -1,6 +1,24 @@
 #include "Configuration.h"
 
 
+WifiCredentials* Configuration::getWifiNetworks(){
+    return this->wifiNetworks;
+}
+
+Configuration* Configuration::setWifiNetworks( WifiCredentials* wifiNetworks ){
+    this->wifiNetworks = wifiNetworks;
+    return this;
+}
+    
+unsigned short Configuration::getWifiNetworksCount(){
+    return this->wifiNetworksCount;
+}
+
+Configuration* Configuration::setWifiNetworksCount( unsigned short wifiNetworksCount ){
+    this->wifiNetworksCount = wifiNetworksCount;
+    return this;
+}
+
 int Configuration::getSensorPin(){
     return this->sensorPin;
 }
@@ -52,5 +70,27 @@ int Configuration::getHumidityToWater(){
 
 Configuration* Configuration::setHumidityToWater( int humidityToWater ){
     this->humidityToWater = humidityToWater;
+    return this;
+}
+
+
+unsigned int Configuration::getMeasureTime(){
+    return this->measureTime;
+}
+
+
+Configuration* Configuration::setMeasureTime( unsigned int measureTime ){
+    this->measureTime = measureTime;
+    return this;
+}
+
+
+unsigned int Configuration::getReadTime(){
+    return this->readTime;
+}
+
+
+Configuration* Configuration::setReadTime( unsigned int readTime ){
+    this->readTime = readTime;
     return this;
 }

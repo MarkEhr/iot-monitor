@@ -13,7 +13,7 @@
 
 class WaterReader{
 
-    //Properties
+    // ------------ Properties
     private: int sensorPin;
 
     private: int pumpPin;
@@ -23,26 +23,39 @@ class WaterReader{
     private: int minHumidity;//Sensor value when completely dry
     private: int maxHumidity;//Sensor value when completely wet
     private: int humidityThreshold;//Sensor value at which to water the plant
+    
+    private: unsigned int readInterval;//Time between raw sensor readings
+
+    private: unsigned int measureInterval;//Time between measure events
 
     private: int sensorReads[FILTER_READS];
 
     private: int readIndex = 0;
 
     private: unsigned long lastWater = - WATERING_WAIT_TIME -1;
+
+    private: unsigned long lastMeasureEvent = 0;
+    private: unsigned long lastReadTime = 0;
     
-    //Constructors
+
+    // ------------ Constructors
     public:WaterReader( Configuration* config );
 
-    //Methods
+
+    // ------------ Methods
+    
+    //To run on the main loop
     void loop();
-
+    //Read the sensor values
     int read();
-
+    //Get humidity saved value (after signal filter)
     public: int getHumidity();
-
+    //Get last values read from sensor (raw)
     public: int getLastRead();
-
+    //Activate plant watering system
     public: void waterPlant( int waterMillis );
+    //Event ran every WaterReader::measureInterval
+    private: void measureEvent( unsigned long actualMillis );
 
 };
 #endif

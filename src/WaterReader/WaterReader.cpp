@@ -20,6 +20,8 @@ WaterReader::WaterReader( Configuration* config ){
     maxHumidity = config->getCompletelyWetMeasure();
     humidityThreshold = config->getHumidityToWater();
     humidityValue = config->getCompletelyWetMeasure();
+    measureInterval = config->getMeasureTime();
+    readInterval = config->getReadTime();
 
 
 
@@ -31,20 +33,18 @@ WaterReader::WaterReader( Configuration* config ){
 
 void WaterReader::loop(){
     
-    read();
+    unsigned long now = millis();
 
-    // Test humidity threshold
-    if( 
-        ( minHumidity < maxHumidity && humidityValue < humidityThreshold ) ||
-        ( minHumidity > maxHumidity && humidityValue > humidityThreshold ) 
-    ){
+    //Execute readings only every readInterval
+    if( now - lastReadTime > readInterval ){
+        read();
+        lastReadTime = now;
+    }
 
-        unsigned long timeSinceLastWater = millis() - lastWater;
-        // Test minimum time between watering
-        if( timeSinceLastWater > WATERING_WAIT_TIME ){
-            waterPlant( WATER_TIME );
-        }
-    
+    //Execute measure events only every measureInterval
+    if( now - lastMeasureEvent > measureInterval ){
+        measureEvent( now );
+        lastMeasureEvent = now;
     }
 
 }
@@ -78,6 +78,38 @@ int WaterReader::getLastRead(){
     return sensorReads[ (readIndex==0?FILTER_READS:readIndex)-1 ];
 }
 
+void WaterReader::measureEvent( unsigned long actualMillis ){
+
+    bool shouldWater = ( minHumidity < maxHumidity && humidityValue < humidityThreshold ) ||
+        ( minHumidity > maxHumidity && humidityValue > humidityThreshold );
+
+    //Print values
+    Serial.print("F-R ");
+    Serial.print( this->getHumidity() );
+    Serial.print(" - ");
+    Serial.println( this->getLastRead() );
+    Serial.print("Watering - ");
+    Serial.println( shouldWater? "Yes":"No" );
+
+    // Test humidity threshold to activate watering system
+    if( shouldWater ){
+
+        unsigned long timeSinceLastWater = actualMillis - lastWater;
+        // Test minimum time between watering
+        if( timeSinceLastWater > WATERING_WAIT_TIME ){
+            waterPlant( WATER_TIME );
+        }
+    
+    }
+
+}
+
+/**
+ * @brief Activate the watering system
+ * This is a blocking process to prevent other functions from extending the watering too much
+ * 
+ * @param waterMillis 
+ */
 void WaterReader::waterPlant( int waterMillis ){
 
     Serial.print("Watering plant for ");

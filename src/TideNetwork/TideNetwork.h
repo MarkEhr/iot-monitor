@@ -1,21 +1,22 @@
 #include <ESP8266WiFi.h>
-#include <PubSubClient.h>
 #include <ESP8266WiFiMulti.h>
+#include "Configuration/Configuration.h"
+#include "TideNetwork/WifiCredentials.h"
 
 #ifndef TideNetwork_H
 #define TideNetwork_H
 
 class TideNetwork {
 
-    private: WiFiClient wifiClient;
+    public: TideNetwork( Configuration* config );
 
-    private: PubSubClient mqttClient;
+    private: Configuration* config;
+
+    private: WiFiClient wifiClient;
 
     public: void setup();
 
     public: void loop( int value );
-
-    public: void connectToBroker();
 
 };
 
