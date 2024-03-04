@@ -1,14 +1,19 @@
-
 #ifndef WebSocketClient_H
 #define WebSocketClient_H
 
+#include <WebSocketsClient.h>
+#include "Configuration/Configuration.h"
+
 class WebSocketClient {
 
-    public: void setup();
+    public: 
+        void setup(  const Configuration& configuration);
+        void loop();
+        void send( String message );
 
-    public: void loop();
-
-    public: void send(    );
+    private: 
+        WebSocketsClient webSocket;
+        void webSocketEvent(WStype_t type, uint8_t * payload, size_t length);
 
 };
 

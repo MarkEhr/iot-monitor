@@ -1,7 +1,9 @@
 #include "Configuration.h"
 
 
-WifiCredentials* Configuration::getWifiNetworks(){
+//Connection configurations
+
+WifiCredentials* Configuration::getWifiNetworks() const{
     return this->wifiNetworks;
 }
 
@@ -10,7 +12,7 @@ Configuration* Configuration::setWifiNetworks( WifiCredentials* wifiNetworks ){
     return this;
 }
     
-unsigned short Configuration::getWifiNetworksCount(){
+unsigned short Configuration::getWifiNetworksCount() const{
     return this->wifiNetworksCount;
 }
 
@@ -19,7 +21,37 @@ Configuration* Configuration::setWifiNetworksCount( unsigned short wifiNetworksC
     return this;
 }
 
-int Configuration::getSensorPin(){
+//Server connection
+String Configuration::getWebSocketServerIP() const{
+    return this->webSocketServerIP;
+}
+
+Configuration* Configuration::setWebSocketServerIP( String webSocketServerIP ){
+    this->webSocketServerIP = webSocketServerIP;
+    return this;
+}
+
+int Configuration::getWebSocketServerPort() const{
+    return this->webSocketServerPort;
+}
+
+Configuration* Configuration::setWebSocketServerPort( int webSocketServerPort ){
+    this->webSocketServerPort = webSocketServerPort;
+    return this;
+}
+
+String Configuration::getServerAPIKey() const{
+    return this->serverAPIKey;
+}
+
+Configuration* Configuration::setServerAPIKey( String serverAPIKey ){
+    this->serverAPIKey = serverAPIKey;
+    return this;
+}
+
+//WaterReader configuration
+
+int Configuration::getSensorPin() const{
     return this->sensorPin;
 }
 
@@ -30,7 +62,7 @@ Configuration* Configuration::setSensorPin( int sensorPin ){
 }
 
 
-int Configuration::getPumpPin(){
+int Configuration::getPumpPin() const{
     return this->pumpPin;
 }
 
@@ -41,7 +73,7 @@ Configuration* Configuration::setPumpPin( int pumpPin ){
 }
 
 
-int Configuration::getCompletelyWetMeasure(){
+int Configuration::getCompletelyWetMeasure() const{
     return this->completelyWetMeasure;
 }
 
@@ -52,7 +84,7 @@ Configuration* Configuration::setCompletelyWetMeasure( int completelyWetMeasure 
 }
 
 
-int Configuration::getCompletelyDryMeasure(){
+int Configuration::getCompletelyDryMeasure() const{
     return this->completelyDryMeasure;
 }
 
@@ -63,7 +95,7 @@ Configuration* Configuration::setCompletelyDryMeasure( int completelyDryMeasure 
 }
 
 
-int Configuration::getHumidityToWater(){
+int Configuration::getHumidityToWater() const{
     return this->humidityToWater;
 }
 
@@ -74,7 +106,7 @@ Configuration* Configuration::setHumidityToWater( int humidityToWater ){
 }
 
 
-unsigned int Configuration::getMeasureTime(){
+unsigned int Configuration::getMeasureTime() const{
     return this->measureTime;
 }
 
@@ -85,7 +117,7 @@ Configuration* Configuration::setMeasureTime( unsigned int measureTime ){
 }
 
 
-unsigned int Configuration::getReadTime(){
+unsigned int Configuration::getReadTime() const{
     return this->readTime;
 }
 
