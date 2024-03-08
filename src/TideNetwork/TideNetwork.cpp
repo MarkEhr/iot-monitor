@@ -47,7 +47,7 @@ void TideNetwork::setup() {
 
 void TideNetwork::loop( int value ){
 
-  WiFiClient client = server.available();
+  WiFiClient client = server.accept();
   this->wifiClient = client;
 
   if (client) {                             // If a new client connects,
@@ -99,7 +99,7 @@ void callback(char *topic, byte *payload, unsigned int length) {
     Serial.println(topic);
     Serial.print("Message:");
     String message;
-    for (int i = 0; i < length; i++) {
+    for (uint i = 0; i < length; i++) {
         message = message + (char) payload[i];  // convert *byte to string
     }
     Serial.print(message);
