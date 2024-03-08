@@ -4,11 +4,13 @@
 #include "TideNetwork/WifiCredentials.h"
 #include "Configuration/Configuration.h"
 #include "WebSocketClient/WebSocketClient.h"
+#include "UpdateManager/UpdateManager.h"
 
 Configuration* config;
 WaterReader *waterReader;
 TideNetwork *tideNetwork;
 WebSocketClient *webSocketClient;
+UpdateManager *updateManager;
 
 void setup() {
 
@@ -20,7 +22,8 @@ void setup() {
   int wifiCount = 2;
   WifiCredentials* credentials = (WifiCredentials*) malloc (  sizeof(WifiCredentials) * wifiCount );
   credentials[0] = *(new WifiCredentials("TIDE", "eltideano"));
-  credentials[1] = *(new WifiCredentials("Luke1, I am your WiFi", "Noooooooo1"));
+  credentials[1] = *(new WifiCredentials("Seven Kingdoms 2.4", "Barbacoa#1"));
+  credentials[2] = *(new WifiCredentials("Luke1, I am your WiFi", "Noooooooo1"));
 
   //Set up device parameters
   config = new Configuration();
@@ -32,7 +35,7 @@ void setup() {
     ->setCompletelyDryMeasure(1024)
     ->setWifiNetworksCount( wifiCount )
     ->setWifiNetworks( credentials )
-    ->setWebSocketServerIP("192.168.1.113")
+    ->setWebSocketServerIP("192.168.0.166")
     ->setWebSocketServerPort(4000)
     ->setServerAPIKey("+d!k~XB9yp-crxAn=cCGr$-o");
 
@@ -46,11 +49,13 @@ void setup() {
   webSocketClient = new WebSocketClient();
   webSocketClient->setup( *config );
   
+  updateManager = new UpdateManager( config );
 }
 
 unsigned long lastMillis = 0;
 
 void loop() {
+  updateManager->loop();
   
   waterReader->loop();
 
