@@ -19,7 +19,7 @@ void setup() {
   Serial.write(WEBSOCKETS_NETWORK_TYPE);
 
   //Create wifi config
-  int wifiCount = 2;
+  int wifiCount = 3;
   WifiCredentials* credentials = (WifiCredentials*) malloc (  sizeof(WifiCredentials) * wifiCount );
   credentials[0] = *(new WifiCredentials("TIDE", "eltideano"));
   credentials[1] = *(new WifiCredentials("Seven Kingdoms 2.4", "Barbacoa#1"));
@@ -33,11 +33,18 @@ void setup() {
     ->setMeasureTime(5000)
     ->setCompletelyWetMeasure(450)
     ->setCompletelyDryMeasure(1024)
+
     ->setWifiNetworksCount( wifiCount )
     ->setWifiNetworks( credentials )
+
     ->setWebSocketServerIP("192.168.0.166")
     ->setWebSocketServerPort(4000)
-    ->setServerAPIKey("+d!k~XB9yp-crxAn=cCGr$-o");
+    ->setServerAPIKey("+d!k~XB9yp-crxAn=cCGr$-o")
+
+    ->setUpdateServerIP("192.168.0.166")
+    ->setUpdateServerPort(4000)
+    ->setUpdateServerPath("/update")
+    ->setUpdatePollInterval(10);  //seconds, will probably change to minutes/hours in prod
 
 
   //Initialize controllers

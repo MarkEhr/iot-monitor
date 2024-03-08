@@ -6,10 +6,11 @@
 class UpdateManager{
     // ------------ Properties
     private: 
-        String updateHost;
-        uint8 updatePort;
+        String updateIP;
+        int updatePort;
         String updatePath;
-        uint8 pollInterval;
+        unsigned int pollInterval;
+        unsigned long lastPollTime = 0;
 
     // ------------ Constructors
     public:
@@ -21,6 +22,10 @@ class UpdateManager{
         void loop();
         // Trigger update calling host:port/path/binaryName
         void update(String binaryName);
+        // Poll for updates, sends current version so server can validate if there is a new one
+        // see https://arduino-esp8266.readthedocs.io/en/latest/ota_updates/readme.html#advanced-updater
+        // for requirements of server implementation
+        void pollUpdate();
 };
 
 #endif

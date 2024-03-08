@@ -49,6 +49,43 @@ Configuration* Configuration::setServerAPIKey( String serverAPIKey ){
     return this;
 }
 
+//UpdateManager confguration
+String Configuration::getUpdateServerIP() const{
+    return this->updateServerIP;
+}
+
+Configuration* Configuration::setUpdateServerIP( String updateServerIP ){
+    this->updateServerIP = updateServerIP;
+    return this;
+}
+
+int Configuration::getUpdateServerPort() const{
+    return this->updateServerPort;
+}
+
+Configuration* Configuration::setUpdateServerPort( int updateServerPort ){
+    this->updateServerPort = updateServerPort;
+    return this;
+}
+
+String Configuration::getUpdateServerPath() const{
+    return this->updateServerPath;
+}
+
+Configuration* Configuration::setUpdateServerPath( String updateServerPath ){
+    this->updateServerPath = updateServerPath;
+    return this;
+}
+
+unsigned int Configuration::getUpdatePollInterval() const{
+    return this->updatePollInterval;
+}
+
+Configuration* Configuration::setUpdatePollInterval( unsigned int updatePollInterval ){
+    this->updatePollInterval = updatePollInterval;
+    return this;
+}
+
 //WaterReader configuration
 
 int Configuration::getSensorPin() const{

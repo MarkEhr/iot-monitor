@@ -32,6 +32,24 @@ class Configuration{
     public: String getServerAPIKey() const;
     public: Configuration* setServerAPIKey( String serverAPIKey );
 
+    //UpdateManager configuration
+    private: String updateServerIP;
+    public: String getUpdateServerIP() const;
+    public: Configuration* setUpdateServerIP( String updateServerIP );
+
+    private: int updateServerPort;
+    public: int getUpdateServerPort() const;
+    public: Configuration* setUpdateServerPort( int updateServerPort );
+
+    private: String updateServerPath;
+    public: String getUpdateServerPath() const;
+    public: Configuration* setUpdateServerPath( String updateServerPath );
+
+    private: unsigned int updatePollInterval;
+    public: unsigned int getUpdatePollInterval() const;
+    public: Configuration* setUpdatePollInterval( unsigned int updatePollInterval );
+
+
     //WaterReader configuration
     private: int sensorPin;
     public: int getSensorPin() const;
