@@ -12,6 +12,7 @@ void WebSocketClient::webSocketEvent(WStype_t type, uint8_t * payload, size_t le
             break;
         case WStype_TEXT:
             Serial.printf("[WSc] Received text: %s\n", payload);
+            eventHandler.handleText(payload);
             break;
 
         case WStype_BIN:

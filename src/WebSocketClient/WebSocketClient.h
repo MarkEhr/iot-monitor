@@ -3,6 +3,7 @@
 
 #include <WebSocketsClient.h>
 #include "Configuration/Configuration.h"
+#include "EventHandler.h"
 
 class WebSocketClient {
 
@@ -14,6 +15,7 @@ class WebSocketClient {
     private: 
         WebSocketsClient webSocket;
         void webSocketEvent(WStype_t type, uint8_t * payload, size_t length);
+        EventHandler eventHandler;
 
 };
 

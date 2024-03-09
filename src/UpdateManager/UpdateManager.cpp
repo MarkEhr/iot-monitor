@@ -19,16 +19,17 @@ void UpdateManager::loop() {
 
 void UpdateManager::update(String binaryName) {
     WiFiClient client;
+    Serial.println("[UpdateManafer] Attempting update to fimware: " + binaryName);
     ESPhttpUpdate.update(client, updateIP, updatePort, updatePath + "/" + binaryName);
 }
 
 void UpdateManager::pollUpdate() {
     WiFiClient client;
     Serial.println("Update port: " + String(updatePort));
-    t_httpUpdate_return ret = ESPhttpUpdate.update(client, updateIP, updatePort, updatePath + "/poll", VERSION);
+    t_httpUpdate_return ret = ESPhttpUpdate.update(client, updateIP, updatePort, updatePath + "/firmware.bin", VERSION);
     switch(ret) {
         case HTTP_UPDATE_FAILED:
-            Serial.println("[update] Update failed: ESPhttpUpdate.getLastErrorString()");
+            Serial.println("[update] Update failed: " + ESPhttpUpdate.getLastErrorString());
             break;
         case HTTP_UPDATE_NO_UPDATES:
             Serial.println("[update] Update no Update.");

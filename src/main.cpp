@@ -44,7 +44,7 @@ void setup() {
     ->setUpdateServerIP("192.168.0.166")
     ->setUpdateServerPort(4000)
     ->setUpdateServerPath("/update")
-    ->setUpdatePollInterval(10);  //seconds, will probably change to minutes/hours in prod
+    ->setUpdatePollInterval(180);  //seconds, will probably change to minutes/hours in prod
 
 
   //Initialize controllers
