@@ -1,7 +1,7 @@
 
 #include <Arduino.h>
 #include "WaterReader.h"
-
+#include "WebSocketClient/WebSocketClient.h"
 
 #define PUMP_OFF LOW
 #define PUMP_ON HIGH
@@ -31,13 +31,14 @@ WaterReader::WaterReader( Configuration* config ){
     digitalWrite( pumpPin, PUMP_OFF );
 }
 
-void WaterReader::loop(){
+void WaterReader::loop(WebSocketClient* webSocketClient){
     
     unsigned long now = millis();
 
     //Execute readings only every readInterval
     if( now - lastReadTime > readInterval ){
         read();
+        webSocketClient->send( "{\"humidity\":\"" + String(humidityValue) + "\"}" );
         lastReadTime = now;
     }
 

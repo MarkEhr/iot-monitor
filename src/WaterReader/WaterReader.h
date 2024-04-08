@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include "../Configuration/Configuration.h"
+#include "WebSocketClient/WebSocketClient.h"
 
 #ifndef WaterReader_H
 #define WaterReader_H
@@ -45,7 +46,7 @@ class WaterReader{
     // ------------ Methods
     
     //To run on the main loop
-    void loop();
+    void loop(WebSocketClient *webSocketClient);
     //Read the sensor values
     int read();
     //Get humidity saved value (after signal filter)

@@ -29,7 +29,7 @@ void setup() {
   config = new Configuration();
   config->setSensorPin(A0)
     ->setPumpPin(D8)
-    ->setReadTime(1000)
+    ->setReadTime(100)
     ->setMeasureTime(5000)
     ->setCompletelyWetMeasure(450)
     ->setCompletelyDryMeasure(1024)
@@ -64,7 +64,7 @@ unsigned long lastMillis = 0;
 void loop() {
   updateManager->loop();
   
-  waterReader->loop();
+  waterReader->loop(webSocketClient);
 
   //tideNetwork->loop( waterReader->getHumidity() );
   
