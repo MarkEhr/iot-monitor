@@ -38,13 +38,13 @@ void WaterReader::loop(WebSocketClient* webSocketClient){
     //Execute readings only every readInterval
     if( now - lastReadTime > readInterval ){
         read();
-        webSocketClient->send( "{\"humidity\":\"" + String(humidityValue) + "\"}" );
         lastReadTime = now;
     }
 
     //Execute measure events only every measureInterval
     if( now - lastMeasureEvent > measureInterval ){
         measureEvent( now );
+        webSocketClient->send( "{\"type\":\"sensor\", \"sensorType\":\"humidity\", \"value\":\"" + String(humidityValue) + "\"}" );
         lastMeasureEvent = now;
     }
 

@@ -6,10 +6,13 @@ void WebSocketClient::webSocketEvent(WStype_t type, uint8_t * payload, size_t le
             Serial.println("[WSc] Disconnected!");
             break;
         
-        case WStype_CONNECTED:
+        case WStype_CONNECTED: {
             Serial.printf("[WSc] Connected to server: %s\n", payload);
-            webSocket.sendTXT("Connected");
+            String ip = WiFi.localIP().toString();
+            String message = String("{\"type\":\"connection\", \"ip\":\"") + ip + String("\"}");
+            webSocket.sendTXT(message);            
             break;
+        }
         case WStype_TEXT:
             Serial.printf("[WSc] Received text: %s\n", payload);
             eventHandler.handleText(payload);
