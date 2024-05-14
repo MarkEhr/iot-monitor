@@ -16,7 +16,7 @@ class TideNetwork {
 
     public: void setup();
 
-    public: void loop( int value );
+    public: void loop();
 
 };
 

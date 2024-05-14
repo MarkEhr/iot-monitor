@@ -37,11 +37,11 @@ void setup() {
     ->setWifiNetworksCount( wifiCount )
     ->setWifiNetworks( credentials )
 
-    ->setWebSocketServerIP("192.168.0.166")
+    ->setWebSocketServerIP("192.168.1.118")
     ->setWebSocketServerPort(4000)
     ->setServerAPIKey("+d!k~XB9yp-crxAn=cCGr$-o")
 
-    ->setUpdateServerIP("192.168.0.166")
+    ->setUpdateServerIP("192.168.1.118")
     ->setUpdateServerPort(4000)
     ->setUpdateServerPath("/api/v1/devices/update")
     ->setUpdatePollInterval(20);  //seconds, will probably change to minutes/hours in prod
@@ -62,13 +62,9 @@ void setup() {
 unsigned long lastMillis = 0;
 
 void loop() {
+
+  tideNetwork->loop();
   updateManager->loop();
-  
   waterReader->loop(webSocketClient);
-
-  //tideNetwork->loop( waterReader->getHumidity() );
-  
   webSocketClient->loop();
-  //webSocketClient->send( );
-
 }
